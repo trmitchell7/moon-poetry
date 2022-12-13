@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
+	"math"
 	"time"
 )
 
@@ -42,39 +42,47 @@ var artists = []string{
 }
 
 
-// getCurrentMoonPhase returns the current phase of the moon as a string.
-func getCurrentMoonPhase() string {
-	now := time.Now()
-	// Use the date to calculate the moon's age in days.
-	moonAge := now.Sub(time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.UTC)).Hours() / 24
-	// Use the moon's age to determine its phase.
-	fmt.Printf("current day %s \n current phase int: %s \n\n", now, moonAge)
-	switch {
-	case moonAge < 1.84566:
-		return "New"
-	case moonAge < 5.53699:
-		return "Waxing Crescent"
-	case moonAge < 9.22831:
-		return "First Quarter"
-	case moonAge < 12.91963:
-		return "Waxing Gibbous"
-	case moonAge < 16.61096:
-		return "Full"
-	case moonAge < 20.30228:
-		return "Waning Gibbous"
-	case moonAge < 23.99361:
-		return "Last Quarter"
-	case moonAge < 27.68493:
-		return "Waning Crescent"
-	default:
-		return "New"
-	}
+func currentMoonPhase() {
+    // Calculate the current phase of the moon based on the given New Moon date.
+	// We'll arbitrarily use the New Moon on November 23, 2022 as the seed date.
+    newMoon := time.Date(2022, time.November, 23, 0, 0, 0, 0, time.UTC)
+	// Get the current date so we can calculate the delta from the seed.
+    currentTime := time.Now()
+    // Calculate the delta since the newMoon seed date.
+    daysSinceNewMoon := currentTime.Sub(newMoon).Hours() / 24
+
+    // Calculate the number of days in the current lunar cycle and mod the delta since the seed date.
+    daysInLunarCycle := 29.530588853
+    daysSinceNewMoon = math.Mod(daysSinceNewMoon, daysInLunarCycle)
+
+    // Determine the current phase of the moon based on the number of days since the last New Moon
+    var phase string
+    if daysSinceNewMoon < 1 {
+        phase = "New"
+    } else if daysSinceNewMoon < 7 {
+        phase = "Waxing Crescent"
+    } else if daysSinceNewMoon < 8 {
+        phase = "First Quarter"
+    } else if daysSinceNewMoon < 16 {
+        phase = "Waxing Gibbous"
+    } else if daysSinceNewMoon < 17 {
+        phase = "Full"
+    } else if daysSinceNewMoon < 25 {
+        phase = "Waning Gibbous"
+    } else if daysSinceNewMoon < 26 {
+        phase = "Third Quarter"
+    } else {
+        phase = "Waning Crescent"
+    }
+
+    // Return the current phase of the moon.
+    return phase
 }
 
 
 func main() {
 	// Get the current phase of the moon.
-	currentPhase := getCurrentMoonPhase()
+	currentPhase := currentMoonPhase()
 
 	// Choose a random poet from the list of poets
 	poetChoice := poets[rand.Intn(len(poets))]
