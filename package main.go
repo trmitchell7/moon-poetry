@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"math"
+	"math/rand"
 	"time"
-	"rand"
 	//"bytes"
 	//"io/ioutil"
 	//"net/http"
