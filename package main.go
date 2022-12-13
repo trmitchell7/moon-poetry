@@ -46,7 +46,7 @@ var artists = []string{
 }
 
 
-func currentMoonPhase() {
+func currentMoonPhase() string {
     // Calculate the current phase of the moon based on the given New Moon date.
 	// We'll arbitrarily use the New Moon on November 23, 2022 as the seed date.
     newMoon := time.Date(2022, time.November, 23, 0, 0, 0, 0, time.UTC)
@@ -60,24 +60,28 @@ func currentMoonPhase() {
     daysSinceNewMoon = math.Mod(daysSinceNewMoon, daysInLunarCycle)
 
     // Determine the current phase of the moon based on the number of days since the last New Moon
+    var phase string
     switch {
     case daysSinceNewMoon < 1:
-        return "New"
+        phase = "New"
     case daysSinceNewMoon < 7:
-        return "Waxing Crescent"
+        phase = "Waxing Crescent"
     case daysSinceNewMoon < 8:
-        return "First Quarter"
+        phase = "First Quarter"
     case daysSinceNewMoon < 16:
-        return "Waxing Gibbous"
+        phase = "Waxing Gibbous"
     case daysSinceNewMoon < 17:
-        return "Full"
+        phase = "Full"
     case daysSinceNewMoon < 25:
-        return "Waning Gibbous"
+        phase = "Waning Gibbous"
     case daysSinceNewMoon < 26:
-        return "Third Quarter"
+        phase = "Third Quarter"
     default:
-        return "Waning Crescent"
+        phase = "Waning Crescent"
     }
+    // Return the current phase of the moon.
+    return phase
+
 }
   
 
@@ -92,17 +96,17 @@ func main() {
 	artistChoice := artists[rand.Intn(len(artists))]
 
 	// Form the string to write a poem that includes the current moon phase and randomly chosen poet
-	// poemPrompt := fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
+	poemPrompt := fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
 
-	fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
+	// fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
 
 	// Form the string to generate an image that includes the current moon phase in the style of the randomly chosen artist
-	// imagePrompt := fmt.Printf("/imagine prompt: A beautiful landscape scene of the starry night sky with a silhouette of a woman with curly dark copper hair looking up at the perfect %s Moon in the stunning nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
+	imagePrompt := fmt.Printf("/imagine prompt: A beautiful landscape scene of the starry night sky with a silhouette of a woman with curly dark copper hair looking up at the perfect %s Moon in the stunning nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
 
-	fmt.Printf("/imagine prompt: A beautiful landscape scene of the starry night sky with a silhouette of a woman with curly dark copper hair looking up at the perfect %s Moon in the stunning nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
+	// fmt.Printf("/imagine prompt: A beautiful landscape scene of the starry night sky with a silhouette of a woman with curly dark copper hair looking up at the perfect %s Moon in the stunning nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
 
-	//fmt.Println(poemPrompt)
-	//fmt.Println(imagePrompt)
+	fmt.Println(poemPrompt)
+	fmt.Println(imagePrompt)
 
 }
 
