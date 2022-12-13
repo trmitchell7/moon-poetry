@@ -60,28 +60,24 @@ func currentMoonPhase() {
     daysSinceNewMoon = math.Mod(daysSinceNewMoon, daysInLunarCycle)
 
     // Determine the current phase of the moon based on the number of days since the last New Moon
-    var phase string
     switch {
     case daysSinceNewMoon < 1:
-        phase = "New"
+        return "New"
     case daysSinceNewMoon < 7:
-        phase = "Waxing Crescent"
+        return "Waxing Crescent"
     case daysSinceNewMoon < 8:
-        phase = "First Quarter"
+        return "First Quarter"
     case daysSinceNewMoon < 16:
-        phase = "Waxing Gibbous"
+        return "Waxing Gibbous"
     case daysSinceNewMoon < 17:
-        phase = "Full"
+        return "Full"
     case daysSinceNewMoon < 25:
-        phase = "Waning Gibbous"
+        return "Waning Gibbous"
     case daysSinceNewMoon < 26:
-        phase = "Third Quarter"
+        return "Third Quarter"
     default:
-        phase = "Waning Crescent"
+        return "Waning Crescent"
     }
-    // Return the current phase of the moon.
-    return phase
-
 }
   
 
