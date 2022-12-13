@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"math"
 	"time"
+	"bytes"
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
 )
 
 // Create a list of poets
@@ -80,6 +84,75 @@ func currentMoonPhase() {
 }
 
 
+func callChatGptApi(prompt string) (string, error) {
+	// Set up the HTTP request to the ChatGPT API
+	url := "https://api.openai.com/v1/chatbot/generate"
+	payload := bytes.NewBuffer([]byte(prompt))
+	req, err := http.NewRequest("POST", url, payload)
+	if err != nil {
+	  return "", err
+	}
+  
+	// Add the necessary headers to the request
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", "Bearer <YOUR_API_KEY>")
+  
+	// Send the request and get the response
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+	  return "", err
+	}
+	defer resp.Body.Close()
+  
+	// Read the response body and return it
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+	  return "", err
+	}
+	return string(body), nil
+}
+
+
+func CreateDiscordAPICall(message string) {
+    // Set the base URL for the Discord API
+    baseURL := "https://discordapp.com/api/v6"
+
+    // Set the endpoint for the API call
+    endpoint := "/channels/{channel.id}/messages"
+
+    // Set the HTTP method for the API call
+    method := "POST"
+
+    // Create the HTTP client
+    client := &http.Client{}
+
+    // Create the request
+    req, err := http.NewRequest(method, baseURL+endpoint, nil)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    // Set the necessary headers for the API call
+    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set("Authorization", "Bot <YOUR_BOT_TOKEN>")
+
+    // Add the message to the request body
+    req.Body = ioutil.NopCloser(strings.NewReader(`{"content": "` + message + `"}`))
+
+    // Execute the API call
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+
+    // Print the response
+    fmt.Println(resp)
+}
+  
+
 func main() {
 	// Get the current phase of the moon.
 	currentPhase := currentMoonPhase()
@@ -90,10 +163,24 @@ func main() {
 	// Choose a random artist from the list of artists
 	artistChoice := artists[rand.Intn(len(artists))]
 
-	// Output a string to write a poem that includes the current moon phase and randomly chosen poet
-	fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
+	// Form the string to write a poem that includes the current moon phase and randomly chosen poet
+	poemPrompt := fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
 
-	// Output a string to generate an image that includes the current moon phase in the style of the randomly chosen artist
-	fmt.Printf("/imagine prompt: A beautiful night sky landscape scene with a silhouette of a woman with short curly copper hair looking up at the perfect %s Moon in the starry nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
+	// Form the string to generate an image that includes the current moon phase in the style of the randomly chosen artist
+	imagePrompt := fmt.Printf("/imagine prompt: A beautiful landscape scene of the starry night sky with a silhouette of a woman with curly dark copper hair looking up at the perfect %s Moon in the stunning nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
+
+	fmt.Println(poemPrompt)
+	fmt.Println(imagePrompt)
+
+	response, err := callChatGptApi(poemPrompt)
+	if err != nil {
+	  fmt.Println(err)
+	} else {
+	  fmt.Println(response)
+	}
+
+	// Call the CreateDiscordAPICall() function and pass the message
+	CreateDiscordAPICall(imagePrompt)
 
 }
+
