@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"math"
+	"math/rand"
+	"math/mod"
 	"time"
 	"bytes"
-	"encoding/json"
 	"io/ioutil"
 	"net/http"
 )
@@ -84,7 +84,7 @@ func currentMoonPhase() {
 }
 
 
-func callChatGptApi(prompt string) (string, error) {
+func callChatGptApi(prompt string) {
 	// Set up the HTTP request to the ChatGPT API
 	url := "https://api.openai.com/v1/chatbot/generate"
 	payload := bytes.NewBuffer([]byte(prompt))
