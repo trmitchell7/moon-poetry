@@ -10,6 +10,11 @@ import (
 	//"net/http"
 )
 
+// Initialize the global rand.Rand instance with the current time in nanoseconds.
+func init() {
+    rand.Seed(time.Now().UnixNano())
+}
+
 // Create a list of poets
 var poets = []string{
 	"William Shakespeare",
