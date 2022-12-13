@@ -61,27 +61,27 @@ func currentMoonPhase() {
 
     // Determine the current phase of the moon based on the number of days since the last New Moon
     var phase string
-    if daysSinceNewMoon < 1 {
+    switch {
+    case daysSinceNewMoon < 1:
         phase = "New"
-    } else if daysSinceNewMoon < 7 {
+    case daysSinceNewMoon < 7:
         phase = "Waxing Crescent"
-    } else if daysSinceNewMoon < 8 {
+    case daysSinceNewMoon < 8:
         phase = "First Quarter"
-    } else if daysSinceNewMoon < 16 {
+    case daysSinceNewMoon < 16:
         phase = "Waxing Gibbous"
-    } else if daysSinceNewMoon < 17 {
+    case daysSinceNewMoon < 17:
         phase = "Full"
-    } else if daysSinceNewMoon < 25 {
+    case daysSinceNewMoon < 25:
         phase = "Waning Gibbous"
-    } else if daysSinceNewMoon < 26 {
+    case daysSinceNewMoon < 26:
         phase = "Third Quarter"
-    } else {
+    default:
         phase = "Waning Crescent"
     }
-
     // Return the current phase of the moon.
     return phase
-	
+
 }
   
 
