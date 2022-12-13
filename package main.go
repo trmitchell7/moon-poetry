@@ -86,7 +86,7 @@ func currentMoonPhase() {
 
 func main() {
 	// Get the current phase of the moon.
-	currentPhase := currentMoonPhase()
+	currentPhase, _ := currentMoonPhase()
 
 	// Choose a random poet from the list of poets
 	poetChoice := poets[rand.Intn(len(poets))]
