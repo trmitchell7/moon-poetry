@@ -96,12 +96,12 @@ func main() {
 	artistChoice := artists[rand.Intn(len(artists))]
 
 	// Form the string to write a poem that includes the current moon phase and randomly chosen poet
-	poemPrompt := fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
+	poemPrompt, _ := fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
 
 	// fmt.Printf("Write a lovely poem about a beautiful woman named Linda as if she was the moon, taking into account last night's %s Moon and what the phase of the moon represents to Linda, done in the style of %s in mixed English and Icelandic.\n\n", currentPhase, poetChoice)
 
 	// Form the string to generate an image that includes the current moon phase in the style of the randomly chosen artist
-	imagePrompt := fmt.Printf("/imagine prompt: A beautiful landscape scene of the starry night sky with a silhouette of a woman with curly dark copper hair looking up at the perfect %s Moon in the stunning nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
+	imagePrompt, _ := fmt.Printf("/imagine prompt: A beautiful landscape scene of the starry night sky with a silhouette of a woman with curly dark copper hair looking up at the perfect %s Moon in the stunning nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
 
 	// fmt.Printf("/imagine prompt: A beautiful landscape scene of the starry night sky with a silhouette of a woman with curly dark copper hair looking up at the perfect %s Moon in the stunning nightsky, painting by %s, astrophotography, accurate %s phase, spirituality, elegant, ethereal, 8k --v 4 --q 2 --ar 2:3 \n", currentPhase, artistChoice, currentPhase)
 
